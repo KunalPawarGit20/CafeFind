@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f6f5ef">
+    <meta name="description" content="Find a cafe with great coffee, Wi-Fi, and room to settle in.">
+    <title>Groundwork — Find your cafe</title>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css', v=1) }}">
+    <script src="{{ url_for('static', filename='app.js', v=2) }}" defer></script>
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="/" aria-label="Groundwork home">
+            <span class="brand-mark" aria-hidden="true">g.</span>
+            <span>groundwork<span class="brand-period">.</span></span>
+        </a>
+        <nav class="site-nav" aria-label="Main navigation">
+            <a href="#cafes">Explore</a>
+            <a href="#about">About</a>
+            <button class="button button-dark button-small" id="open-add-dialog" type="button">
+                <span aria-hidden="true">＋</span> Add a cafe
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-copy">
+                <p class="eyebrow"><span class="eyebrow-dot"></span> YOUR NEIGHBORHOOD, BREWED</p>
+                <h1 id="hero-title">Find your<br>kind of <em>cafe.</em></h1>
+                <p class="hero-description">
+                    From the first flat white to the final email, find a spot that feels just right.
+                </p>
+                <form class="search-form" id="search-form" role="search">
+                    <label class="sr-only" for="location-search">Search cafes by location</label>
+                    <span class="search-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"></circle><path d="m16 16 4.2 4.2"></path></svg>
+                    </span>
+                    <input id="location-search" name="loc" type="search" placeholder="Try a neighborhood or city..." autocomplete="address-level2">
+                    <button class="button button-lime search-button" type="submit">Find a spot <span aria-hidden="true">→</span></button>
+                </form>
+                <div class="hero-actions">
+                    <button class="text-button" id="random-cafe" type="button">
+                        Surprise me <span aria-hidden="true">↗</span>
+                    </button>
+                    <span class="action-divider" aria-hidden="true"></span>
+                    <button class="text-button" id="show-all" type="button">Browse all cafes</button>
+                </div>
+            </div>
+            <div class="hero-art" aria-hidden="true">
+                <div class="sun-disc"></div>
+                <div class="art-caption"><span>01</span> TAKE YOUR TIME</div>
+                <div class="coffee-illustration">
+                    <div class="steam steam-one"></div>
+                    <div class="steam steam-two"></div>
+                    <div class="cup-handle"></div>
+                    <div class="cup"><span class="cup-mark">g.</span></div>
+                    <div class="saucer"></div>
+                    <div class="coffee-bean bean-one"></div>
+                    <div class="coffee-bean bean-two"></div>
+                </div>
+                <span class="art-sparkle sparkle-one">✳</span>
+                <span class="art-sparkle sparkle-two">✳</span>
+                <p class="art-note">A good day<br>starts somewhere.</p>
+            </div>
+            <div class="hero-bottom">
+                <span>GOOD COFFEE, GOOD COMPANY</span>
+                <span class="hero-bottom-line"></span>
+                <span>MADE FOR YOUR NEXT FAVORITE PLACE</span>
+            </div>
+        </section>
+
+        <section class="cafe-section" id="cafes" aria-labelledby="cafes-title">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">THE LOCAL LIST</p>
+                    <h2 id="cafes-title">A seat with your name on it.</h2>
+                </div>
+                <p class="section-note">Thoughtful little places for whatever<br>you need to get into today.</p>
+            </div>
+
+            <div class="browse-toolbar">
+                <div class="filter-list" role="group" aria-label="Filter cafes by amenities">
+                    <button class="filter-chip is-active" data-filter="all" type="button" aria-pressed="true">All spots</button>
+                    <button class="filter-chip" data-filter="wifi" type="button" aria-pressed="false">
+                        <span aria-hidden="true">⌁</span> Good Wi-Fi
+                    </button>
+                    <button class="filter-chip" data-filter="sockets" type="button" aria-pressed="false">
+                        <span aria-hidden="true">ϟ</span> Power outlets
+                    </button>
+                    <button class="filter-chip" data-filter="calls" type="button" aria-pressed="false">
+                        <span aria-hidden="true">◖</span> Call-friendly
+                    </button>
+                </div>
+                <span class="result-count" id="result-count" aria-live="polite"></span>
+            </div>
+
+            <div class="notice" id="notice" role="status" aria-live="polite" hidden></div>
+            <div class="cafe-grid" id="cafe-grid" aria-live="polite"></div>
+            <div class="empty-state" id="empty-state" hidden>
+                <div class="empty-icon" aria-hidden="true">☕</div>
+                <h3 id="empty-title">Your next favorite is out there.</h3>
+                <p id="empty-copy">No cafes here just yet. Add the first spot and help the neighborhood out.</p>
+                <button class="button button-dark" id="empty-add-button" type="button">Add a cafe <span aria-hidden="true">→</span></button>
+            </div>
+        </section>
+
+        <section class="about-section" id="about">
+            <div class="about-stamp" aria-hidden="true"><span>GOOD<br>THINGS<br>BREW<br>HERE</span><b>✳</b></div>
+            <div class="about-copy">
+                <p class="eyebrow">A LITTLE MORE LOCAL</p>
+                <h2>Make room for<br>the <em>in-between.</em></h2>
+                <p>Not every good idea happens at a desk. Find a window seat, order something lovely, and let the day find its rhythm.</p>
+            </div>
+            <button class="button button-lime about-button" id="about-add-button" type="button">Know a good one? <span aria-hidden="true">↗</span></button>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <a class="brand footer-brand" href="/" aria-label="Groundwork home">
+            <span class="brand-mark" aria-hidden="true">g.</span>
+            <span>groundwork<span class="brand-period">.</span></span>
+        </a>
+        <p>Good places are better when they're shared.</p>
+        <details class="api-details">
+            <summary>API endpoints</summary>
+            <ul>
+                <li><code>GET /all</code> — list cafes</li>
+                <li><code>GET /random</code> — discover a cafe</li>
+                <li><code>GET /search?loc=LOCATION</code> — search by location</li>
+                <li><code>POST /add</code> — add a cafe</li>
+            </ul>
+        </details>
+    </footer>
+
+    <dialog class="add-dialog" id="add-dialog" aria-labelledby="dialog-title">
+        <div class="dialog-heading">
+            <div>
+                <p class="eyebrow">SPREAD THE WORD</p>
+                <h2 id="dialog-title">Add a good spot.</h2>
+            </div>
+            <button class="dialog-close" id="close-add-dialog" type="button" aria-label="Close form">×</button>
+        </div>
+        <p class="dialog-intro">Know a cafe worth settling into? Put it on the map.</p>
+        <form class="add-form" id="add-form">
+            <label>
+                Cafe name
+                <input name="name" type="text" maxlength="250" placeholder="The Daily Grind" required>
+            </label>
+            <div class="form-row">
+                <label>
+                    Neighborhood / city
+                    <input name="loc" type="text" maxlength="250" placeholder="Portland" required>
+                </label>
+                <label>
+                    Seating
+                    <input name="seats" type="text" maxlength="250" placeholder="About 20 seats" required>
+                </label>
+            </div>
+            <label>
+                Map link
+                <input name="map_url" type="url" maxlength="500" placeholder="https://..." required>
+            </label>
+            <label>
+                Photo link
+                <input name="img_url" type="url" maxlength="500" placeholder="https://..." required>
+            </label>
+            <label>
+                Coffee price <span class="field-optional">optional</span>
+                <input name="coffee_price" type="text" maxlength="250" placeholder="e.g. $4.50">
+            </label>
+            <fieldset class="amenity-fieldset">
+                <legend>The useful stuff</legend>
+                <label class="checkbox-label"><input name="wifi" type="checkbox"> Wi-Fi</label>
+                <label class="checkbox-label"><input name="sockets" type="checkbox"> Power outlets</label>
+                <label class="checkbox-label"><input name="calls" type="checkbox"> Calls are okay</label>
+                <label class="checkbox-label"><input name="toilet" type="checkbox"> Restroom</label>
+            </fieldset>
+            <p class="form-error" id="form-error" role="alert" hidden></p>
+            <button class="button button-dark submit-button" type="submit">Add to the list <span aria-hidden="true">→</span></button>
+        </form>
+    </dialog>
+</body>
+</html>
